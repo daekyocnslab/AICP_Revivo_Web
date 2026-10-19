@@ -241,3 +241,5 @@ Hugging Face Space의 실행 토큰은 **Settings → Secrets → `HF_TOKEN`**�
 | :--- | :--- |
 | [🗂️ 소스 구조와 처리 흐름](docs/architecture.md) | 모듈 책임 · 요청 처리 · 파일 배치 |
 | [📖 사용 및 분석 동작](docs/usage.md) | 입력 · 설정 · 결과 파일 · API · 오류 대응 |
+| [🚢 배포 안내](docs/deployment.md) | Docker 실행 · 인증 설정 · GitHub → Space 동기화 |
+| [📄 VR-MCDT 기술 보고서](docs/vr-mcdt-paper.md) | 수식 · 알고리즘 · 재현 코드 · 평가 방법 |
