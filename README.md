@@ -201,3 +201,11 @@ curl 'http://localhost:7860/api/jobs/JOB_ID'
 분석 요청은 `202`와 작업 `id`를 반환합니다. 조회 응답의 `state`가 `done`이면 `result`, `failed`이면 `error`를 확인합니다. 완료 결과는 `/api/jobs/JOB_ID/media/result.json`에서 다운로드합니다.
 
 업로드 API는 multipart 대신 파일 원문을 받습니다. Tracking 화면은 제공된 샘플을 사용하며 영상 업로드는 API에서만 지원합니다. 업로드 영상에는 카메라 정보가 없어 차량 도안 이미지를 생성하지 않습니다. 요청 예제와 결과 파일은 [사용 안내](docs/usage.md#api)에 정리했습니다.
+
+## 📦 Docker와 배포
+
+```bash
+docker build -t aicp-revivo .
+# 기본 샘플을 사용하려면 호스트에 HF_TOKEN을 먼저 설정합니다.
+docker run --rm -p 7860:7860 --env HF_TOKEN aicp-revivo
+```
