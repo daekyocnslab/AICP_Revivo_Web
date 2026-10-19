@@ -168,4 +168,10 @@ AICP-revivo/
 | `REVIVO_CPU_THREADS` | CPU 수와 4 중 작은 값 | PyTorch CPU 스레드 수 |
 | `REVIVO_MARIGOLD_PATH` | 고정 Hub 모델 | 로컬 Marigold 모델 디렉터리 |
 
+| 분석 설정 | 웹/API 기본값 |
+| :--- | :--- |
+| 검출 신뢰도 | `0.5` |
+| Tracking 프레임 선택 | 전체 프레임; `sample_fps` 지정 시 선택적으로 샘플링 |
+| Tracking 연결 조건 | 보정 중심 거리 `25px` **또는** IoU `0.1` 이상 |
+
 </details>
