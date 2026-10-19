@@ -27,3 +27,14 @@ JPG·PNG·WebP 이미지를 선택하고 신뢰도를 조절합니다. 모델 �
 ### Damage Tracking
 
 차량 이동으로 달라진 검출 위치를 보정한 뒤, 같은 파손을 프레임 간 연결합니다. 기본적으로 모든 원본 프레임을 분석하며, **2회 이상 관측된 ID**만 확정 파손 수에 포함합니다. 화면에서는 원본 재생본·분석 영상·차량 도안을 확인할 수 있습니다.
+
+<details>
+<summary><strong>🖼️ 차량 도안 보기</strong></summary>
+
+| 왼쪽 · CAM4 / CAM5 | 위쪽 · CAM3 / CAM6 | 오른쪽 · CAM1 / CAM2 |
+| :---: | :---: | :---: |
+| ![차량 왼쪽 도안](static/assets/blueprint_left.png) | ![차량 위쪽 도안](static/assets/blueprint_above.png) | ![차량 오른쪽 도안](static/assets/blueprint_right.png) |
+
+프로젝트가 사용하는 기본 도안입니다. 분석 후에는 확정 파손 ID의 위치를 점으로 표시합니다. 기본 설정의 위치는 **근사 투영**이며, 점의 크기는 실제 파손 크기가 아닙니다.
+
+</details>
