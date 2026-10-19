@@ -180,3 +180,11 @@ AICP-revivo/
 `coverage`는 측정 판정에 사용하는 설정값이며 통계적 신뢰수준을 뜻하지 않습니다. 모델·설정·처리 제한의 상세 의미는 [사용 안내](docs/usage.md)를 참고하세요.
 
 </details>
+
+## 🔌 API 한눈에 보기
+
+| 요청 | 용도 |
+| :--- | :--- |
+| `GET /api/samples` | 사용 가능한 샘플 조회 |
+| `POST /api/samples/{sample_id}/jobs` | `scratch` · `depth` · `tracking` 샘플 분석 |
+| `POST /api/jobs/{demo}` | 이미지 또는 영상 원문 업로드: `scratch` · `tracking` |
