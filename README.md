@@ -155,3 +155,5 @@ AICP-revivo/
 | 추적 | OpenCV · OR-MCDT | 광학 흐름, 좌표 보정, 일대일 연결 |
 | 데이터 | Hugging Face Hub | 리비전을 고정한 샘플·모델 다운로드와 캐시 |
 | 배포 | Docker · Hugging Face Spaces · GitHub Actions | 컨테이너 실행과 소스 동기화 |
+
+프런트엔드 빌드 단계나 외부 CDN 없이 웹 UI를 제공합니다. 정확한 실행 의존성 범위는 [requirements.txt](requirements.txt)에 있습니다.
