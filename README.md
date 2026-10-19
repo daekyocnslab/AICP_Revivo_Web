@@ -141,3 +141,5 @@ AICP-revivo/
 ├── requirements.txt
 └── README.md
 ```
+
+주요 파일을 표시한 트리이며 Python 패키지의 `__init__.py`와 숨김 설정 파일은 생략했습니다. 로컬 `samples/`와 `.venv/`는 Git·Docker 대상에서 제외합니다. 모듈별 책임과 파일 배치 기준은 [소스 구조 문서](docs/architecture.md)를 참고하세요.
