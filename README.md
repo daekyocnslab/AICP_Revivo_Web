@@ -191,3 +191,9 @@ AICP-revivo/
 | `GET /api/jobs/{id}` | 진행 상태와 결과 조회 |
 | `DELETE /api/jobs/{id}` | 진행 중 분석 취소 또는 완료 결과 삭제 |
 | `GET /api/jobs/{id}/media/{filename}` | 허용된 결과 파일 다운로드 |
+
+```bash
+# 샘플 분석 시작 → 응답의 id로 상태 확인
+curl -X POST 'http://localhost:7860/api/samples/tracking/jobs?threshold=0.5&distance=25&iou=0.1'
+curl 'http://localhost:7860/api/jobs/JOB_ID'
+```
