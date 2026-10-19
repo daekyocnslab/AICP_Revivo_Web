@@ -173,5 +173,8 @@ AICP-revivo/
 | 검출 신뢰도 | `0.5` |
 | Tracking 프레임 선택 | 전체 프레임; `sample_fps` 지정 시 선택적으로 샘플링 |
 | Tracking 연결 조건 | 보정 중심 거리 `25px` **또는** IoU `0.1` 이상 |
+| Tracking 파손 확정 | 최소 `2회` 관측 |
+| Marigold 처리 | `10단계`, `256px` |
+| 깊이 측정 설정 | `noise_mm=2`, `coverage=0.9` |
 
 </details>
