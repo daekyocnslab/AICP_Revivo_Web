@@ -106,3 +106,38 @@ uvicorn revivo.app:app --host 0.0.0.0 --port 7860 --workers 1
 **👉 [http://localhost:7860](http://localhost:7860)** 에서 샘플 선택 → 설정 조절 → **AI 분석 / 크기·깊이 측정** 순서로 실행합니다.
 
 > **실행 프로세스는 1개로 유지하세요.** 모델과 작업 상태를 프로세스 메모리에서 관리합니다. 한 번에 한 건을 처리하며, 진행 중 다른 분석 요청에는 `429`를 반환합니다.
+
+<a id="structure"></a>
+
+## 🗂️ 프로젝트 구성
+
+```text
+AICP-revivo/
+├── revivo/                     # Python 애플리케이션
+│   ├── app.py                  # HTTP API · 작업 조회/취소/만료
+│   ├── inference.py            # RF-DETR 로딩 · 이미지/영상 추론
+│   ├── samples.py              # 데이터셋 카탈로그 · 다운로드 · 미리보기
+│   ├── depth/                  # RGB-D 정합 · 깊이 보완 · 기하 측정
+│   │   ├── pipeline.py
+│   │   ├── completion.py
+│   │   ├── marigold_dc.py
+│   │   ├── rgbd.py
+│   │   ├── measurements.py
+│   │   ├── damage_depth.py
+│   │   └── Marigold-LICENSE.txt
+│   └── tracking/               # VR-MCDT에서 재사용한 추적 구현
+│       ├── core.py             # OR-MCDT 좌표 보정 · ID 연결
+│       ├── motion.py           # 품질 기준을 적용한 광학 흐름
+│       ├── checkpoint.py       # 가중치 구조 · 로딩 검증
+│       ├── blueprint.py        # 확정 파손의 도안 투영
+│       ├── blueprint_cameras.json
+│       └── storage.py
+├── static/                     # HTML · CSS · JavaScript
+│   └── assets/                 # 차량 도안 · 아이콘 · 폰트 · 라이선스
+├── weights/                    # 비공개 모델 가중치, Git LFS
+├── docs/                       # 구조 · 사용 · 배포 · 기술 보고서
+├── .github/workflows/           # GitHub → Hugging Face 동기화
+├── Dockerfile
+├── requirements.txt
+└── README.md
+```
