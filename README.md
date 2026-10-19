@@ -197,3 +197,5 @@ AICP-revivo/
 curl -X POST 'http://localhost:7860/api/samples/tracking/jobs?threshold=0.5&distance=25&iou=0.1'
 curl 'http://localhost:7860/api/jobs/JOB_ID'
 ```
+
+분석 요청은 `202`와 작업 `id`를 반환합니다. 조회 응답의 `state`가 `done`이면 `result`, `failed`이면 `error`를 확인합니다. 완료 결과는 `/api/jobs/JOB_ID/media/result.json`에서 다운로드합니다.
