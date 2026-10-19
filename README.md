@@ -177,4 +177,6 @@ AICP-revivo/
 | Marigold 처리 | `10단계`, `256px` |
 | 깊이 측정 설정 | `noise_mm=2`, `coverage=0.9` |
 
+`coverage`는 측정 판정에 사용하는 설정값이며 통계적 신뢰수준을 뜻하지 않습니다. 모델·설정·처리 제한의 상세 의미는 [사용 안내](docs/usage.md)를 참고하세요.
+
 </details>
