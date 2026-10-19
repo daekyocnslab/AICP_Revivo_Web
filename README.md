@@ -252,3 +252,7 @@ Hugging Face Space의 실행 토큰은 **Settings → Secrets → `HF_TOKEN`**�
 | :--- | :--- | :--- |
 | [Marigold-DC](revivo/depth/marigold_dc.py) | 깊이 보완 코드 | [Apache 2.0](revivo/depth/Marigold-LICENSE.txt) |
 | [Pretendard](static/assets/PretendardVariable.woff2) | 웹 화면 글꼴 | [SIL Open Font License 1.1](static/assets/Pretendard-LICENSE.txt) |
+
+두 라이선스 모두 상업적 사용을 허용합니다. 주요 배포 조건은 다음과 같습니다.
+
+- **Marigold-DC 코드:** 재배포 시 라이선스와 관련 저작권 고지를 포함하고, 수정한 파일에는 변경 사실을 표시합니다. [원본 라이선스](https://github.com/prs-eth/Marigold-DC/blob/main/LICENSE.txt)
