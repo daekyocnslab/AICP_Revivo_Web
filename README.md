@@ -15,3 +15,7 @@
 | 🔍 **Scratch Detection** | 기본 샘플 또는 업로드 이미지 | RF-DETR scratch 모델로 검출 | 파손 박스, 신뢰도, 원본 좌표, JSON |
 | 📏 **Depth Measurement** | 제공된 RGB·센서 Depth·보정 JSON | 깊이 정합 → RGB 검출 → Marigold-DC 결측 보완 → 기하 측정 | 너비·높이·박스 면적·함몰 깊이, 전후 깊이맵, NPY |
 | 🎞️ **Damage Tracking** | 제공된 차량 영상 | 두 모델 검출 → 수평 이동 보정 → 동일 파손 ID 연결 | 파손별 대표 프레임, 확정 ID 수, 박스 영상, 차량 도안 |
+
+### Scratch Detection
+
+JPG·PNG·WebP 이미지를 선택하고 신뢰도를 조절합니다. 모델 입력 과정에서 바뀐 크기와 패딩을 역변환하여, 결과 박스를 **원본 이미지 좌표**로 돌려줍니다. EXIF 회전도 입력에 반영합니다.
