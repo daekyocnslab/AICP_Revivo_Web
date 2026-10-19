@@ -94,3 +94,5 @@ weights/
 ```bash
 hf auth login
 ```
+
+환경변수 `HF_TOKEN`을 사용하는 방법도 지원합니다. 직접 업로드한 Scratch 이미지 분석에는 데이터셋 접근 권한이 필요하지 않습니다. 첫 Depth 분석에서는 Marigold 모델 다운로드도 필요합니다.
