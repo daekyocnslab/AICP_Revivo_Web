@@ -86,3 +86,11 @@ weights/
 ├── scratch.pth
 └── dent.pth
 ```
+
+### 2. 기본 샘플 접근 권한 설정
+
+샘플은 [Hugging Face 비공개 데이터셋](https://huggingface.co/datasets/dkcns/AICP-revivo)에서 내려받습니다. 해당 데이터셋을 읽을 수 있는 계정으로 인증합니다.
+
+```bash
+hf auth login
+```
