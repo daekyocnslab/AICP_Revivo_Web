@@ -256,3 +256,6 @@ Hugging Face Space의 실행 토큰은 **Settings → Secrets → `HF_TOKEN`**�
 두 라이선스 모두 상업적 사용을 허용합니다. 주요 배포 조건은 다음과 같습니다.
 
 - **Marigold-DC 코드:** 재배포 시 라이선스와 관련 저작권 고지를 포함하고, 수정한 파일에는 변경 사실을 표시합니다. [원본 라이선스](https://github.com/prs-eth/Marigold-DC/blob/main/LICENSE.txt)
+- **Pretendard 글꼴:** 글꼴 파일과 함께 저작권 고지와 라이선스를 배포합니다. 글꼴 자체의 단독 판매는 금지되며, 수정본에 예약된 글꼴 이름을 사용하려면 별도 허가가 필요합니다. [원본 라이선스](https://github.com/orioncactus/pretendard/blob/v1.3.9/LICENSE)
+
+위 링크의 라이선스 파일은 해당 코드·글꼴과 함께 저장소에 포함되어 있습니다. 이 표는 프로젝트 전체에 대한 라이선스 선언이 아닙니다. 모델 가중치·비공개 데이터셋·그 밖의 의존성은 각각의 제공 조건을 따릅니다.
