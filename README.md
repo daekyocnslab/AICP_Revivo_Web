@@ -102,3 +102,5 @@ hf auth login
 ```bash
 uvicorn revivo.app:app --host 0.0.0.0 --port 7860 --workers 1
 ```
+
+**👉 [http://localhost:7860](http://localhost:7860)** 에서 샘플 선택 → 설정 조절 → **AI 분석 / 크기·깊이 측정** 순서로 실행합니다.
