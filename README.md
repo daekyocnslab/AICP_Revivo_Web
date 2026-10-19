@@ -243,3 +243,7 @@ Hugging Face Space의 실행 토큰은 **Settings → Secrets → `HF_TOKEN`**�
 | [📖 사용 및 분석 동작](docs/usage.md) | 입력 · 설정 · 결과 파일 · API · 오류 대응 |
 | [🚢 배포 안내](docs/deployment.md) | Docker 실행 · 인증 설정 · GitHub → Space 동기화 |
 | [📄 VR-MCDT 기술 보고서](docs/vr-mcdt-paper.md) | 수식 · 알고리즘 · 재현 코드 · 평가 방법 |
+
+## 🙏 기반 프로젝트와 라이선스
+
+검출은 RF-DETR, 깊이 보완·측정은 AICP-Depth와 Marigold-DC, 추적은 VR-MCDT 구현을 사용합니다. [Marigold-DC 연구 및 원본 구현](https://marigolddepthcompletion.github.io/)과 [RF-DETR 공식 저장소](https://github.com/roboflow/rf-detr)를 참고하세요.
