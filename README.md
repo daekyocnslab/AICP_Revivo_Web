@@ -60,3 +60,21 @@ flowchart TD
 - **실행:** CUDA를 사용할 수 있으면 GPU를 선택합니다. 지원되는 GPU 실행 오류는 CPU에서 재시도하고 결과에 알립니다.
 
 알고리즘의 수식·의사코드·설계 근거는 [VR-MCDT 기술 보고서](docs/vr-mcdt-paper.md)에 설명되어 있습니다.
+
+<a id="quickstart"></a>
+
+## 🚀 빠른 시작
+
+### 1. 실행 환경과 가중치 준비
+
+Python **3.12**와 Git LFS를 권장합니다. 다음은 Bash 기준 실행 명령입니다.
+
+```bash
+git lfs install
+git clone https://github.com/Moon-Dongkyu/AICP-revivo.git
+cd AICP-revivo
+git lfs pull
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+```
