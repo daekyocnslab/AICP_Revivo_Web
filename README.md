@@ -151,3 +151,7 @@ AICP-revivo/
 | 웹 API | FastAPI · Uvicorn | 입력 검증, 비동기 작업 상태, 결과 제공 |
 | 프런트엔드 | HTML · CSS · JavaScript · Canvas | 파일 미리보기, 검출·측정 결과, 영상과 도안 표시 |
 | 검출 | RF-DETR `1.10.0` · PyTorch | scratch/dent 가중치 기반 로컬 추론 |
+| 깊이 | Marigold-DC · Diffusers · NumPy | 센서 관측으로 유도하는 깊이 보완과 기하 계산 |
+| 추적 | OpenCV · OR-MCDT | 광학 흐름, 좌표 보정, 일대일 연결 |
+| 데이터 | Hugging Face Hub | 리비전을 고정한 샘플·모델 다운로드와 캐시 |
+| 배포 | Docker · Hugging Face Spaces · GitHub Actions | 컨테이너 실행과 소스 동기화 |
