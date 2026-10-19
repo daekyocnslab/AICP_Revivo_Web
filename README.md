@@ -80,3 +80,9 @@ pip install -r requirements.txt
 ```
 
 아래 두 파일이 실제 모델 파일로 준비되어 있어야 합니다. Git LFS 포인터만 내려받은 상태라면 `git lfs pull`을 먼저 실행하세요.
+
+```text
+weights/
+├── scratch.pth
+└── dent.pth
+```
