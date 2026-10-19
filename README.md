@@ -157,3 +157,15 @@ AICP-revivo/
 | 배포 | Docker · Hugging Face Spaces · GitHub Actions | 컨테이너 실행과 소스 동기화 |
 
 프런트엔드 빌드 단계나 외부 CDN 없이 웹 UI를 제공합니다. 정확한 실행 의존성 범위는 [requirements.txt](requirements.txt)에 있습니다.
+
+<details>
+<summary><strong>⚙️ 환경변수와 기본 분석 설정</strong></summary>
+
+| 환경변수 | 기본값 | 설명 |
+| :--- | :--- | :--- |
+| `HF_TOKEN` | 없음 | 비공개 데이터셋 읽기 인증 |
+| `REVIVO_DEVICE` | `auto` | `auto` · `cpu` · `cuda` |
+| `REVIVO_CPU_THREADS` | CPU 수와 4 중 작은 값 | PyTorch CPU 스레드 수 |
+| `REVIVO_MARIGOLD_PATH` | 고정 Hub 모델 | 로컬 Marigold 모델 디렉터리 |
+
+</details>
