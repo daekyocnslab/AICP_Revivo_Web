@@ -143,3 +143,11 @@ AICP-revivo/
 ```
 
 주요 파일을 표시한 트리이며 Python 패키지의 `__init__.py`와 숨김 설정 파일은 생략했습니다. 로컬 `samples/`와 `.venv/`는 Git·Docker 대상에서 제외합니다. 모듈별 책임과 파일 배치 기준은 [소스 구조 문서](docs/architecture.md)를 참고하세요.
+
+## 🛠️ 기술 구성
+
+| 영역 | 사용 기술 | 역할 |
+| :--- | :--- | :--- |
+| 웹 API | FastAPI · Uvicorn | 입력 검증, 비동기 작업 상태, 결과 제공 |
+| 프런트엔드 | HTML · CSS · JavaScript · Canvas | 파일 미리보기, 검출·측정 결과, 영상과 도안 표시 |
+| 검출 | RF-DETR `1.10.0` · PyTorch | scratch/dent 가중치 기반 로컬 추론 |
