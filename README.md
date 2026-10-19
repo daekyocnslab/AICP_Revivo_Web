@@ -228,5 +228,7 @@ Hugging Face Space의 실행 토큰은 **Settings → Secrets → `HF_TOKEN`**�
 | 영상 API | MP4 / WebM · 100 MiB · 60초 · 3,600프레임 · 최대 4K |
 | Tracking 검출 수 | 총 20,000개 이하 |
 | Depth 측정 대상 | 새로 검출한 박스 최대 50개 |
+| 동시 분석 | 프로세스당 1건, 대기열 없음 |
+| 결과 보관 | 작업 종료 후 최대 30분 · 최근 종료 작업 3건(성공·실패·취소 포함) |
 
 </details>
