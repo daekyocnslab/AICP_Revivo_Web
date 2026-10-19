@@ -209,3 +209,5 @@ docker build -t aicp-revivo .
 # 기본 샘플을 사용하려면 호스트에 HF_TOKEN을 먼저 설정합니다.
 docker run --rm -p 7860:7860 --env HF_TOKEN aicp-revivo
 ```
+
+Hugging Face Space의 실행 토큰은 **Settings → Secrets → `HF_TOKEN`**에 별도로 설정합니다. GitHub Actions는 `main` 브랜치의 소스와 Git LFS 파일을 Space로 동기화합니다. GPU 실행 조건과 자동 배포 설정은 [배포 문서](docs/deployment.md)를 참고하세요.
