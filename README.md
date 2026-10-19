@@ -188,3 +188,6 @@ AICP-revivo/
 | `GET /api/samples` | 사용 가능한 샘플 조회 |
 | `POST /api/samples/{sample_id}/jobs` | `scratch` · `depth` · `tracking` 샘플 분석 |
 | `POST /api/jobs/{demo}` | 이미지 또는 영상 원문 업로드: `scratch` · `tracking` |
+| `GET /api/jobs/{id}` | 진행 상태와 결과 조회 |
+| `DELETE /api/jobs/{id}` | 진행 중 분석 취소 또는 완료 결과 삭제 |
+| `GET /api/jobs/{id}/media/{filename}` | 허용된 결과 파일 다운로드 |
