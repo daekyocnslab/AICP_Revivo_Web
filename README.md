@@ -1,261 +1,66 @@
 # AICP Revivo
 
-<a id="overview"></a>
+## 🚀 [지금 데모 체험하기 →](https://dkcns-aicp-revivo.hf.space/)
 
-**AICP Revivo**는 차량 파손 분석을 하나의 웹 화면에서 체험하는 프로젝트입니다. 이미지에서 스크래치를 찾는 **AICP-Scratch**, RGB와 센서 깊이로 파손의 크기·깊이를 측정하는 **AICP-Depth**, 영상에서 반복 검출되는 파손을 연결하는 **VR-MCDT**의 구현을 통합했습니다.
+**설치 없이 브라우저에서 차량 파손 검출·크기와 깊이 측정·영상 추적을 직접 체험해 보세요.**
 
-사용자는 샘플을 선택하거나 이미지를 업로드하고, 분석 설정을 조절한 뒤 결과를 확인할 수 있습니다. 검출은 서버의 RF-DETR 가중치로 수행하며, 검출 박스·파손 ID·측정값과 함께 결과 파일을 제공합니다.
+[![AICP Revivo 공개 데모 첫 화면 — 스크래치 검출, 크기·깊이 측정, 영상 파손 추적. 클릭하면 데모로 이동합니다.](assets/revivo-demo-overview.png)](https://dkcns-aicp-revivo.hf.space/)
 
-<a id="features"></a>
+*공개 데모의 실제 첫 화면입니다. 위 이미지나 [데모 링크](https://dkcns-aicp-revivo.hf.space/)를 누르고, 체험할 기술을 선택하세요.*
 
-## ✨ 세 가지 분석 기능
+## 프로젝트 소개
 
-| 기능 | 입력 | 처리 과정 | 확인할 수 있는 결과 |
-| :--- | :--- | :--- | :--- |
-| 🔍 **Scratch Detection** | 기본 샘플 또는 업로드 이미지 | RF-DETR scratch 모델로 검출 | 파손 박스, 신뢰도, 원본 좌표, JSON |
-| 📏 **Depth Measurement** | 제공된 RGB·센서 Depth·보정 JSON | 깊이 정합 → RGB 검출 → Marigold-DC 결측 보완 → 기하 측정 | 너비·높이·박스 면적·함몰 깊이, 전후 깊이맵, NPY |
-| 🎞️ **Damage Tracking** | 제공된 차량 영상 | 두 모델 검출 → 수평 이동 보정 → 동일 파손 ID 연결 | 파손별 대표 프레임, 확정 ID 수, 박스 영상, 차량 도안 |
+**AICP Revivo는 차량 외관의 스크래치와 덴트를 분석하기 위해 촬영 환경, RGB-D 데이터 수집, 데이터셋 구축, AI 검출·측정·추적을 연결하는 연구·개발 프로젝트입니다.**
 
-### Scratch Detection
+차량 표면에서 파손을 찾는 것부터 파손의 크기와 함몰 깊이를 측정하고, 영상에 반복 등장하는 같은 파손을 연결하는 것까지 다룹니다. 촬영 장비와 조명, 데이터 품질, 모델 학습과 평가, 분석 결과 확인을 함께 연구하여 차량 외관 상태를 일관된 근거로 파악하는 것을 목표로 합니다.
 
-JPG·PNG·WebP 이미지를 선택하고 신뢰도를 조절합니다. 모델 입력 과정에서 바뀐 크기와 패딩을 역변환하여, 결과 박스를 **원본 이미지 좌표**로 돌려줍니다. EXIF 회전도 입력에 반영합니다.
+공개 데모는 프로젝트의 핵심 분석 기술을 직접 살펴볼 수 있는 체험 공간입니다. 프로젝트의 개발·연구 과정은 [개발·연구 이력](history.md)에 정리되어 있습니다.
 
-### Depth Measurement
+## 프로젝트가 다루는 세 가지 질문
 
-센서 Depth를 RGB 카메라 좌표에 정합하고, Marigold-DC로 결측 영역을 보완합니다. **이미 관측된 센서 깊이는 유지**하며 RGB에서 새로 검출한 파손 박스를 측정합니다. 측정 근거가 부족하면 값 대신 `null`과 사유를 반환합니다.
-
-### Damage Tracking
-
-차량 이동으로 달라진 검출 위치를 보정한 뒤, 같은 파손을 프레임 간 연결합니다. 기본적으로 모든 원본 프레임을 분석하며, **2회 이상 관측된 ID**만 확정 파손 수에 포함합니다. 화면에서는 원본 재생본·분석 영상·차량 도안을 확인할 수 있습니다.
-
-<details>
-<summary><strong>🖼️ 차량 도안 보기</strong></summary>
-
-| 왼쪽 · CAM4 / CAM5 | 위쪽 · CAM3 / CAM6 | 오른쪽 · CAM1 / CAM2 |
-| :---: | :---: | :---: |
-| ![차량 왼쪽 도안](static/assets/blueprint_left.png) | ![차량 위쪽 도안](static/assets/blueprint_above.png) | ![차량 오른쪽 도안](static/assets/blueprint_right.png) |
-
-프로젝트가 사용하는 기본 도안입니다. 분석 후에는 확정 파손 ID의 위치를 점으로 표시합니다. 기본 설정의 위치는 **근사 투영**이며, 점의 크기는 실제 파손 크기가 아닙니다.
-
-</details>
-
-<a id="pipeline"></a>
-
-## 🧠 처리 흐름
-
-```mermaid
-flowchart TD
-    A[웹 화면: 샘플 선택 또는 이미지 업로드] --> B[FastAPI: 입력 검증 · 작업 예약]
-    B --> D[Scratch: RF-DETR 검출]
-    B --> E[Depth: 센서 정합 · 검출 · 보완 · 측정]
-    B --> F[Tracking: 검출 · 이동 보정 · ID 연결 · 도안]
-    D --> G[결과 시각화 · 파일 다운로드]
-    E --> G
-    F --> G
-```
-
-- **검출:** scratch와 dent의 체크포인트 구조를 각각 검사하고 맞는 모델 클래스를 선택합니다.
-- **추적:** 광학 흐름으로 수평 이동을 추정하고, 보정 좌표에서 Hungarian 알고리즘으로 일대일 연결합니다.
-- **깊이:** 검출 모델을 메모리에서 해제한 뒤 Marigold를 실행하고, 센서 관측값을 보존하여 결과를 구성합니다.
-- **실행:** CUDA를 사용할 수 있으면 GPU를 선택합니다. 지원되는 GPU 실행 오류는 CPU에서 재시도하고 결과에 알립니다.
-
-알고리즘의 수식·의사코드·설계 근거는 [VR-MCDT 기술 보고서](docs/vr-mcdt-paper.md)에 설명되어 있습니다.
-
-<a id="quickstart"></a>
-
-## 🚀 빠른 시작
-
-### 1. 실행 환경과 가중치 준비
-
-Python **3.12**와 Git LFS를 권장합니다. 다음은 Bash 기준 실행 명령입니다.
-
-```bash
-git lfs install
-git clone https://github.com/Moon-Dongkyu/AICP-revivo.git
-cd AICP-revivo
-git lfs pull
-python -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
-```
-
-아래 두 파일이 실제 모델 파일로 준비되어 있어야 합니다. Git LFS 포인터만 내려받은 상태라면 `git lfs pull`을 먼저 실행하세요.
-
-```text
-weights/
-├── scratch.pth
-└── dent.pth
-```
-
-### 2. 기본 샘플 접근 권한 설정
-
-샘플은 [Hugging Face 비공개 데이터셋](https://huggingface.co/datasets/dkcns/AICP-revivo)에서 내려받습니다. 해당 데이터셋을 읽을 수 있는 계정으로 인증합니다.
-
-```bash
-hf auth login
-```
-
-환경변수 `HF_TOKEN`을 사용하는 방법도 지원합니다. 직접 업로드한 Scratch 이미지 분석에는 데이터셋 접근 권한이 필요하지 않습니다. 첫 Depth 분석에서는 Marigold 모델 다운로드도 필요합니다.
-
-### 3. 서버 실행
-
-```bash
-uvicorn revivo.app:app --host 0.0.0.0 --port 7860 --workers 1
-```
-
-**👉 [http://localhost:7860](http://localhost:7860)** 에서 샘플 선택 → 설정 조절 → **AI 분석 / 크기·깊이 측정** 순서로 실행합니다.
-
-> **실행 프로세스는 1개로 유지하세요.** 모델과 작업 상태를 프로세스 메모리에서 관리합니다. 한 번에 한 건을 처리하며, 진행 중 다른 분석 요청에는 `429`를 반환합니다.
-
-<a id="structure"></a>
-
-## 🗂️ 프로젝트 구성
-
-```text
-AICP-revivo/
-├── revivo/                     # Python 애플리케이션
-│   ├── app.py                  # HTTP API · 작업 조회/취소/만료
-│   ├── inference.py            # RF-DETR 로딩 · 이미지/영상 추론
-│   ├── samples.py              # 데이터셋 카탈로그 · 다운로드 · 미리보기
-│   ├── depth/                  # RGB-D 정합 · 깊이 보완 · 기하 측정
-│   │   ├── pipeline.py
-│   │   ├── completion.py
-│   │   ├── marigold_dc.py
-│   │   ├── rgbd.py
-│   │   ├── measurements.py
-│   │   ├── damage_depth.py
-│   │   └── Marigold-LICENSE.txt
-│   └── tracking/               # VR-MCDT에서 재사용한 추적 구현
-│       ├── core.py             # OR-MCDT 좌표 보정 · ID 연결
-│       ├── motion.py           # 품질 기준을 적용한 광학 흐름
-│       ├── checkpoint.py       # 가중치 구조 · 로딩 검증
-│       ├── blueprint.py        # 확정 파손의 도안 투영
-│       ├── blueprint_cameras.json
-│       └── storage.py
-├── static/                     # HTML · CSS · JavaScript
-│   └── assets/                 # 차량 도안 · 아이콘 · 폰트 · 라이선스
-├── weights/                    # 비공개 모델 가중치, Git LFS
-├── docs/                       # 구조 · 사용 · 배포 · 기술 보고서
-├── .github/workflows/           # GitHub → Hugging Face 동기화
-├── Dockerfile
-├── requirements.txt
-└── README.md
-```
-
-주요 파일을 표시한 트리이며 Python 패키지의 `__init__.py`와 숨김 설정 파일은 생략했습니다. 로컬 `samples/`와 `.venv/`는 Git·Docker 대상에서 제외합니다. 모듈별 책임과 파일 배치 기준은 [소스 구조 문서](docs/architecture.md)를 참고하세요.
-
-## 🛠️ 기술 구성
-
-| 영역 | 사용 기술 | 역할 |
+| 질문 | 핵심 기술 | 확인하려는 정보 |
 | :--- | :--- | :--- |
-| 웹 API | FastAPI · Uvicorn | 입력 검증, 비동기 작업 상태, 결과 제공 |
-| 프런트엔드 | HTML · CSS · JavaScript · Canvas | 파일 미리보기, 검출·측정 결과, 영상과 도안 표시 |
-| 검출 | RF-DETR `1.10.0` · PyTorch | scratch/dent 가중치 기반 로컬 추론 |
-| 깊이 | Marigold-DC · Diffusers · NumPy | 센서 관측으로 유도하는 깊이 보완과 기하 계산 |
-| 추적 | OpenCV · OR-MCDT | 광학 흐름, 좌표 보정, 일대일 연결 |
-| 데이터 | Hugging Face Hub | 리비전을 고정한 샘플·모델 다운로드와 캐시 |
-| 배포 | Docker · Hugging Face Spaces · GitHub Actions | 컨테이너 실행과 소스 동기화 |
+| **어디에 파손이 있는가?** | 스크래치·덴트 검출 | 차량 이미지 속 파손 위치와 유형 |
+| **얼마나 크고 깊은가?** | RGB-D 기반 기하 측정 | 파손의 너비·높이와 정상 표면 대비 함몰 깊이 |
+| **여러 번 보이는 파손이 같은 것인가?** | 영상 내 파손 추적 | 프레임 사이의 동일 파손 연결과 ID |
 
-프런트엔드 빌드 단계나 외부 CDN 없이 웹 UI를 제공합니다. 정확한 실행 의존성 범위는 [requirements.txt](requirements.txt)에 있습니다.
+이 세 가지 분석을 통해 파손의 **위치·규모·동일성**을 함께 이해하는 것이 프로젝트의 핵심 방향입니다.
 
-<details>
-<summary><strong>⚙️ 환경변수와 기본 분석 설정</strong></summary>
+## 연구·개발 범위
 
-| 환경변수 | 기본값 | 설명 |
+| 영역 | 주요 내용 |
+| :--- | :--- |
+| **촬영 환경과 하드웨어** | LED 광원·구조광, 다중 카메라 구성, RealSense 깊이 카메라 설정과 보정 정보 연구 |
+| **데이터 수집과 관리** | 차량 RGB·Depth·IR 데이터 수집·추출, 차량 세션과 메타데이터 관리, 누락·품질 확인 |
+| **데이터셋 구축** | 스크래치·덴트 라벨링 기준, 학습·검증 데이터 구성과 사전 검사 |
+| **AI 분석** | 파손 검출 모델 학습·평가, RGB-D 정합과 깊이 보완, 크기·깊이 측정, 영상 파손 추적 |
+| **결과 확인과 연구 기록** | 검출·측정·추적 결과 시각화, 분석 도구와 데모, 기술 문서와 실험·개발 이력 정리 |
+
+전체 흐름은 **촬영·수집 → 정제·라벨링 → 학습·평가 → 검출·측정·추적 → 결과 검토**로 이어집니다. 위 표는 프로젝트의 연구·개발 범위이며, 각 구성 요소의 구현 상태와 검증 범위는 [이력 문서](history.md)에서 구분해 기록합니다.
+
+## 데모에서 체험할 수 있는 핵심 기술
+
+| 기술 | 체험 내용 | 주요 결과 |
 | :--- | :--- | :--- |
-| `HF_TOKEN` | 없음 | 비공개 데이터셋 읽기 인증 |
-| `REVIVO_DEVICE` | `auto` | `auto` · `cpu` · `cuda` |
-| `REVIVO_CPU_THREADS` | CPU 수와 4 중 작은 값 | PyTorch CPU 스레드 수 |
-| `REVIVO_MARIGOLD_PATH` | 고정 Hub 모델 | 로컬 Marigold 모델 디렉터리 |
+| **AICP-Scratch · 스크래치 검출** | 샘플 또는 업로드한 차량 이미지에서 RF-DETR로 스크래치 검출 | 파손 박스와 검출 신뢰도 |
+| **AICP-Depth · 크기·깊이 측정** | 제공된 RGB-D 샘플의 센서 깊이를 정합하고, Marigold-DC로 결측을 보완하여 파손 측정 | 너비·높이·검출 박스 면적·함몰 깊이와 깊이맵 |
+| **VR-MCDT · 영상 파손 추적** | 차량 이동에 따른 위치 변화를 보정하고, 여러 프레임에 나타난 동일 파손 연결 | 파손 ID, 대표 프레임, 추적 영상과 차량 도안 |
 
-| 분석 설정 | 웹/API 기본값 |
-| :--- | :--- |
-| 검출 신뢰도 | `0.5` |
-| Tracking 프레임 선택 | 전체 프레임; `sample_fps` 지정 시 선택적으로 샘플링 |
-| Tracking 연결 조건 | 보정 중심 거리 `25px` **또는** IoU `0.1` 이상 |
-| Tracking 파손 확정 | 최소 `2회` 관측 |
-| Marigold 처리 | `10단계`, `256px` |
-| 깊이 측정 설정 | `noise_mm=2`, `coverage=0.9` |
+[데모 열기](https://dkcns-aicp-revivo.hf.space/) → **기술 선택** → **샘플 선택 또는 이미지 업로드** → **분석 실행** → **결과 확인** 순서로 체험할 수 있습니다. 이미지 업로드는 Scratch에서, Depth와 Tracking은 제공된 샘플로 시작하세요.
 
-`coverage`는 측정 판정에 사용하는 설정값이며 통계적 신뢰수준을 뜻하지 않습니다. 모델·설정·처리 제한의 상세 의미는 [사용 안내](docs/usage.md)를 참고하세요.
+## 현재 단계와 결과 해석
 
-</details>
+프로젝트는 데이터 수집 도구, AI 학습·추론 코드, 분석 데모와 연구 산출물을 함께 발전시키는 단계입니다. 기능 구현과 데모 제공은 정량 성능이나 실제 운영 환경에서의 검증 완료를 뜻하지 않습니다.
 
-## 🔌 API 한눈에 보기
+- **검출·측정 성능:** 추적 정확도와 실측 오차는 별도 평가가 필요하며, 근거가 부족한 측정값은 제공되지 않을 수 있습니다.
+- **깊이와 면적:** 깊이맵의 색상은 카메라와의 거리입니다. 함몰 깊이는 정상 표면을 기준으로 따로 측정하며, 면적은 파손 윤곽이 아닌 검출 박스 기준입니다.
+- **추적 범위:** 파손 ID는 카메라별 결과입니다. 카메라 사이의 동일 파손 재식별·중복 병합은 포함하지 않으므로, 여러 카메라의 개수를 차량 전체 고유 파손 수로 합산할 수 없습니다.
+- **차량 도안:** 파손 위치는 근사 투영이며, 표시된 점의 크기가 실제 파손 크기를 뜻하지 않습니다.
 
-| 요청 | 용도 |
-| :--- | :--- |
-| `GET /api/samples` | 사용 가능한 샘플 조회 |
-| `POST /api/samples/{sample_id}/jobs` | `scratch` · `depth` · `tracking` 샘플 분석 |
-| `POST /api/jobs/{demo}` | 이미지 또는 영상 원문 업로드: `scratch` · `tracking` |
-| `GET /api/jobs/{id}` | 진행 상태와 결과 조회 |
-| `DELETE /api/jobs/{id}` | 진행 중 분석 취소 또는 완료 결과 삭제 |
-| `GET /api/jobs/{id}/media/{filename}` | 허용된 결과 파일 다운로드 |
+## 개발·연구 이력
 
-```bash
-# 샘플 분석 시작 → 응답의 id로 상태 확인
-curl -X POST 'http://localhost:7860/api/samples/tracking/jobs?threshold=0.5&distance=25&iou=0.1'
-curl 'http://localhost:7860/api/jobs/JOB_ID'
-```
+**[개발·연구 이력 보기 →](history.md)**
 
-분석 요청은 `202`와 작업 `id`를 반환합니다. 조회 응답의 `state`가 `done`이면 `result`, `failed`이면 `error`를 확인합니다. 완료 결과는 `/api/jobs/JOB_ID/media/result.json`에서 다운로드합니다.
+촬영 장비와 RGB-D 수집 도구, 데이터셋·라벨링, AI 모델, 분석 화면과 연구 문서의 변화를 날짜와 분야별로 확인할 수 있습니다. 확인된 변경 이력, 문서에 기재된 수행기간, 구현 날짜가 확정되지 않은 소스 현황을 구분해 정리했습니다.
 
-업로드 API는 multipart 대신 파일 원문을 받습니다. Tracking 화면은 제공된 샘플을 사용하며 영상 업로드는 API에서만 지원합니다. 업로드 영상에는 카메라 정보가 없어 차량 도안 이미지를 생성하지 않습니다. 요청 예제와 결과 파일은 [사용 안내](docs/usage.md#api)에 정리했습니다.
-
-## 📦 Docker와 배포
-
-```bash
-docker build -t aicp-revivo .
-# 기본 샘플을 사용하려면 호스트에 HF_TOKEN을 먼저 설정합니다.
-docker run --rm -p 7860:7860 --env HF_TOKEN aicp-revivo
-```
-
-Hugging Face Space의 실행 토큰은 **Settings → Secrets → `HF_TOKEN`**에 별도로 설정합니다. GitHub Actions는 `main` 브랜치의 소스와 Git LFS 파일을 Space로 동기화합니다. GPU 실행 조건과 자동 배포 설정은 [배포 문서](docs/deployment.md)를 참고하세요.
-
-## 📌 결과 해석과 한계
-
-- **파손 ID는 카메라별 결과입니다.** 카메라 간 재식별·중복 병합은 구현되어 있지 않습니다. 여러 카메라의 개수를 더해 차량 전체의 고유 파손 수로 해석하면 안 됩니다.
-- **이동량은 `px/frame`입니다.** 차량의 실제 속도인 `km/h`를 측정하지 않습니다. 유효한 이동을 얻지 못하면 웹 분석은 검출 결과만 제공합니다.
-- **깊이맵 색상과 함몰 깊이는 다릅니다.** 색상은 카메라에서의 거리이고, 함몰 깊이는 정상 표면에 대한 별도 측정입니다. 면적은 파손 윤곽 면적이 아닌 검출 박스 면적입니다.
-- **정량 성능은 별도 평가가 필요합니다.** 현재 기능 구현이나 동작 검증은 추적 정확도·실측 오차에 대한 벤치마크 결과를 대신하지 않습니다.
-
-<details>
-<summary><strong>📋 입력 제한과 결과 보관 정책</strong></summary>
-
-| 항목 | 현재 제한 |
-| :--- | :--- |
-| 이미지 | JPG / PNG / WebP · 20 MiB · 2,400만 픽셀 · 정지 이미지 |
-| 영상 API | MP4 / WebM · 100 MiB · 60초 · 3,600프레임 · 최대 4K |
-| Tracking 검출 수 | 총 20,000개 이하 |
-| Depth 측정 대상 | 새로 검출한 박스 최대 50개 |
-| 동시 분석 | 프로세스당 1건, 대기열 없음 |
-| 결과 보관 | 작업 종료 후 최대 30분 · 최근 종료 작업 3건(성공·실패·취소 포함) |
-
-업로드 원본은 작업 종료 시 삭제합니다. 결과는 작업별 임시 폴더에 보관하며 서버 재시작 시 사라집니다. 결과 URL을 가진 사람은 보관 중 파일에 접근할 수 있으므로, 공개 서비스의 접근 제어는 배포 환경에서 설정합니다. 가중치는 정적 웹 경로로 제공하지 않습니다.
-
-</details>
-
-## 📚 상세 문서
-
-| 문서 | 내용 |
-| :--- | :--- |
-| [🗂️ 소스 구조와 처리 흐름](docs/architecture.md) | 모듈 책임 · 요청 처리 · 파일 배치 |
-| [📖 사용 및 분석 동작](docs/usage.md) | 입력 · 설정 · 결과 파일 · API · 오류 대응 |
-| [🚢 배포 안내](docs/deployment.md) | Docker 실행 · 인증 설정 · GitHub → Space 동기화 |
-| [📄 VR-MCDT 기술 보고서](docs/vr-mcdt-paper.md) | 수식 · 알고리즘 · 재현 코드 · 평가 방법 |
-
-## 🙏 기반 프로젝트와 라이선스
-
-검출은 RF-DETR, 깊이 보완·측정은 AICP-Depth와 Marigold-DC, 추적은 VR-MCDT 구현을 사용합니다. [Marigold-DC 연구 및 원본 구현](https://marigolddepthcompletion.github.io/)과 [RF-DETR 공식 저장소](https://github.com/roboflow/rf-detr)를 참고하세요.
-
-| 구성 요소 | 용도 | 라이선스 |
-| :--- | :--- | :--- |
-| [Marigold-DC](revivo/depth/marigold_dc.py) | 깊이 보완 코드 | [Apache 2.0](revivo/depth/Marigold-LICENSE.txt) |
-| [Pretendard](static/assets/PretendardVariable.woff2) | 웹 화면 글꼴 | [SIL Open Font License 1.1](static/assets/Pretendard-LICENSE.txt) |
-
-두 라이선스 모두 상업적 사용을 허용합니다. 주요 배포 조건은 다음과 같습니다.
-
-- **Marigold-DC 코드:** 재배포 시 라이선스와 관련 저작권 고지를 포함하고, 수정한 파일에는 변경 사실을 표시합니다. [원본 라이선스](https://github.com/prs-eth/Marigold-DC/blob/main/LICENSE.txt)
-- **Pretendard 글꼴:** 글꼴 파일과 함께 저작권 고지와 라이선스를 배포합니다. 글꼴 자체의 단독 판매는 금지되며, 수정본에 예약된 글꼴 이름을 사용하려면 별도 허가가 필요합니다. [원본 라이선스](https://github.com/orioncactus/pretendard/blob/v1.3.9/LICENSE)
-
-위 링크의 라이선스 파일은 해당 코드·글꼴과 함께 저장소에 포함되어 있습니다. 이 표는 프로젝트 전체에 대한 라이선스 선언이 아닙니다. 모델 가중치·비공개 데이터셋·그 밖의 의존성은 각각의 제공 조건을 따릅니다.
+이 저장소는 **프로젝트 소개와 개발·연구 이력**을 관리합니다. 실행 소스·모델 가중치·데이터셋·배포 구성은 포함하지 않으며, 분석 체험은 [공개 데모](https://dkcns-aicp-revivo.hf.space/)에서 제공합니다.
