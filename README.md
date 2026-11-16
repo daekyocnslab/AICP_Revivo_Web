@@ -64,3 +64,16 @@
 촬영 장비와 RGB-D 수집 도구, 데이터셋·라벨링, AI 모델, 분석 화면과 연구 문서의 변화를 날짜와 분야별로 확인할 수 있습니다. 확인된 변경 이력, 문서에 기재된 수행기간, 구현 날짜가 확정되지 않은 소스 현황을 구분해 정리했습니다.
 
 이 저장소는 **프로젝트 소개와 개발·연구 이력**을 관리합니다. 실행 소스·모델 가중치·데이터셋·배포 구성은 포함하지 않으며, 분석 체험은 [공개 데모](https://dkcns-aicp-revivo.hf.space/)에서 제공합니다.
+
+## Contributors
+
+AICP Revivo 프로젝트에 함께 기여한 참여자입니다.
+
+- [eunji_heo@daekyo.co.kr](mailto:eunji_heo@daekyo.co.kr)
+- [woohyun_kim@daekyo.co.kr](mailto:woohyun_kim@daekyo.co.kr)
+- [dongkuk.kim@daekyo.co.kr](mailto:dongkuk.kim@daekyo.co.kr)
+- [seuk_lee@daekyo.co.kr](mailto:seuk_lee@daekyo.co.kr)
+- [dongkwan_kho@daekyo.co.kr](mailto:dongkwan_kho@daekyo.co.kr)
+- [bongseok_park@daekyo.co.kr](mailto:bongseok_park@daekyo.co.kr)
+- [jonghoon_lee@daekyo.co.kr](mailto:jonghoon_lee@daekyo.co.kr)
+- [jaekwang_ahn@daekyo.co.kr](mailto:jaekwang_ahn@daekyo.co.kr)
